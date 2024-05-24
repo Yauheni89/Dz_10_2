@@ -1,4 +1,4 @@
-def filter_by_state(transactions: object, state: object = "EXECUTED") -> object:
+def filter_by_state(transactions: list[dict], state: str = "EXECUTED") -> list[dict]:
     """Функция принимает на вход список словарей и значение для ключа stat
     (опциональный параметр со значением по умолчанию EXECUTED) и возвращает
      новый список, содержащий только те словари, у которых ключ state
@@ -8,3 +8,10 @@ def filter_by_state(transactions: object, state: object = "EXECUTED") -> object:
         if transaction.get("state") == state:
             filtered_transactions.append(transaction)
     return filtered_transactions
+
+
+def sort_dicts_by_date(dicts_list: list[dict]) -> list[dict]:
+    """Функция принимает на вход список словарей и возвращает новый список, в котором
+    исходные словари отсортированы по убыванию даты (ключ date)."""
+    sorted_list = sorted(dicts_list, key=lambda x: x["date"], reverse=True)
+    return sorted_list
