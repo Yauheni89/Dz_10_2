@@ -5,21 +5,18 @@ from src.masks import get_masked_nums, mask_account_numbers, mask_card_numbers
 
 # Фикстуры для тестовых данных
 @pytest.fixture
-def card_numbers():
-    return [
-        "1234567890123456",
-        "1111222233334444",
-        "5555666677778888"
-    ]
+def card_number() -> str:
+    return "1234567890123456"
 
 
 @pytest.fixture
-def account_numbers():
-    return [
-        "12345678901234567890",
-        "11112222333344445555",
-        "98765432109876543210"
-    ]
+def account_number() -> str:
+    return "12345678901234567890"
+
+
+@pytest.fixture
+def invalid_number() -> str:
+    return "1234"
 
 
 # Тесты для функции mask_card_numbers
@@ -28,7 +25,7 @@ def account_numbers():
     ("1111222233334444", "1111 22** **** 4444"),
     ("5555666677778888", "5555 66** **** 8888"),
 ])
-def test_mask_card_numbers(card_number, expected):
+def test_mask_card_numbers(card_number: str, expected: str) -> None:
     assert mask_card_numbers(card_number) == expected
 
 
@@ -38,7 +35,7 @@ def test_mask_card_numbers(card_number, expected):
     ("11112222333344445555", "**5555"),
     ("98765432109876543210", "**3210"),
 ])
-def test_mask_account_numbers(account_number, expected):
+def test_mask_account_numbers(account_number: str, expected: str) -> None:
     assert mask_account_numbers(account_number) == expected
 
 
@@ -49,5 +46,5 @@ def test_mask_account_numbers(account_number, expected):
     ("1234", "Введите 16 или 20-значное число"),
     ("abcd1234567890123456", "Введите 16 или 20-значное число"),
 ])
-def test_get_masked_nums(number, expected):
+def test_get_masked_nums(number: str, expected: str) -> None:
     assert get_masked_nums(number) == expected
