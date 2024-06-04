@@ -244,6 +244,16 @@ files = [
 toml = ["tomli"]
 
 [[package]]
+name = "decorators"
+version = "2.0.7"
+description = "Quickly create flexible Python decorators"
+optional = false
+python-versions = "*"
+files = [
+    {file = "decorators-2.0.7.tar.gz", hash = "sha256:9cf26202d6170a5cdca8a9cf6cd4b467c10601d4a9076470bceb9d282a5fa28a"},
+]
+
+[[package]]
 name = "flake8"
 version = "7.0.0"
 description = "the modular source code checker: pep8 pyflakes and co"
@@ -528,4 +538,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "c14495ab7291cd963d073a0a52d2f8f9c1a0568c48dc19a03a46b830bea6d01b"
+content-hash = "db3e99f5b0ffa97df0a9c7fa49ea97485e8ab0b0610f4c315cb4655d31b9d538"
