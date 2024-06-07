@@ -1,10 +1,44 @@
 import functools
+from typing import Callable, Optional
 
 
-def log(filename=None):
-    def decorator(func):
+def log(filename: Optional[str] = None) -> Callable:
+    """
+    Декоратор для логирования вызова функции и её результата.
+
+    Если `filename` задан, логирование происходит в указанный файл.
+    Если `filename` не задан, логирование происходит в консоль.
+
+    Args:
+        filename (str, optional): Имя файла для логирования. По умолчанию None.
+
+    Returns:
+        Callable: Декоратор для логирования функции.
+    """
+
+    def decorator(func: Callable) -> Callable:
+        """
+        Декоратор, логирующий вызовы и результаты функции.
+
+        Args:
+            func (Callable): Функция, которую нужно логировать.
+
+        Returns:
+            Callable: Обёрнутая функция с логированием.
+        """
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            """
+            Обёртка для логирования вызова и результата функции.
+
+            Args:
+                *args: Позиционные аргументы функции.
+                **kwargs: Именованные аргументы функции.
+
+            Returns:
+                Результат выполнения обёрнутой функции.
+            """
             try:
                 result = func(*args, **kwargs)
                 log_message = f"{func.__name__} ok\n"
@@ -31,7 +65,18 @@ def log(filename=None):
 # Пример использования
 @log(filename="mylog.txt")
 def my_function(x, y):
+    """
+    Пример функции для демонстрации работы декоратора.
+
+    Args:
+        x (int): Первое число.
+        y (int): Второе число.
+
+    Returns:
+        int: Сумма x и y.
+    """
     return x + y
 
 
+# Вызов функции для тестирования
 my_function(1, 2)
