@@ -11,6 +11,8 @@ python = "^3.12"
 requests = "^2.32.2"
 pytest = "^8.2.1"
 decorators = "^2.0.7"
+python-dotenv = "^1.0.1"
+utils = "^1.0.2"
 
 
 [tool.poetry.group.lint.dependencies]
