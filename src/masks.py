@@ -2,7 +2,7 @@ import logging
 
 # Настройка логирования
 logging.basicConfig(
-    filename='masks.log',
+    filename='logs/masks.log',
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     filemode='w'
