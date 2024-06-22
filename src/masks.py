@@ -1,11 +1,20 @@
 import logging
+import os
+
+# Определяем путь до корня проекта
+root_directory = os.path.dirname(os.path.dirname(__file__))
+log_directory = os.path.join(root_directory, 'logs')
+
+# Проверка и создание директории для логов, если она не существует
+if not os.path.exists(log_directory):
+    os.makedirs(log_directory)
 
 # Настройка логирования
 logging.basicConfig(
-    filename='logs/masks.log',
+    filename=os.path.join(log_directory, 'masks.log'),
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    filemode='w'
+    filemode='w'  # Перезапись файла при каждом запуске
 )
 
 logger = logging.getLogger('masks')
@@ -13,9 +22,9 @@ logger = logging.getLogger('masks')
 
 def mask_card_numbers(nums: str) -> str:
     """Функция принимает на вход номер карты и возвращает ее маску."""
-    logger.debug(f"Получение замаскированного номера для: {nums}")
+    logger.debug(f"Номер маскировочной карты: {nums}")
     masked = f"{nums[:4]} {nums[4:6]}** **** {nums[-4:]}"
-    logger.debug(f"Получение замаскированного номера для: {masked}")
+    logger.debug(f"Номер маскировочной карты: {masked}")
     return masked
 
 
