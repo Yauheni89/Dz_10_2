@@ -3,7 +3,7 @@ import os
 
 # Определяем путь до корня проекта
 root_directory = os.path.dirname(os.path.dirname(__file__))
-log_directory = os.path.join(root_directory, 'logs')
+log_directory = os.path.join(root_directory, "logs")
 
 # Проверка и создание директории для логов, если она не существует
 if not os.path.exists(log_directory):
@@ -11,13 +11,13 @@ if not os.path.exists(log_directory):
 
 # Настройка логирования
 logging.basicConfig(
-    filename=os.path.join(log_directory, 'masks.log'),
+    filename=os.path.join(log_directory, "masks.log"),
     level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    filemode='w'  # Перезапись файла при каждом запуске
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    filemode="w",  # Перезапись файла при каждом запуске
 )
 
-logger = logging.getLogger('masks')
+logger = logging.getLogger("masks")
 
 
 def mask_card_numbers(nums: str) -> str:
