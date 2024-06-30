@@ -1,5 +1,5 @@
 import re
-from typing import List, Dict
+from typing import Dict, List
 
 
 def filter_transactions_by_description(transactions: List[Dict], search_string: str) -> List[Dict]:

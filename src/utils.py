@@ -16,7 +16,7 @@ if not os.path.exists(log_directory):
 logging.basicConfig(
     filename=os.path.join(log_directory, "utils.log"),
     level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levellevelname)s - %(message)s",
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     filemode="w",  # Перезапись файла при каждом запуске
 )
 
@@ -53,36 +53,42 @@ def read_operations(file_path):
         return []
 
 
-def read_csv_transactions(file_name: str) -> list[dict]:
-    """
-    Читает данные о финансовых операциях из CSV-файла и преобразует в список словарей.
-
-    Аргументы:
-    file_name (str): Путь до CSV-файла с данными о финансовых операциях.
-
-    Возвращает:
-    list[dict]: Список словарей с данными о финансовых операциях.
-    """
+def read_csv_transactions(file_path):
+    transactions = []
     try:
-        df = pd.read_csv(file_name, delimiter=";")
-        return df.to_dict(orient="records")
+        df = pd.read_csv(file_path, delimiter=";")
+        for index, row in df.iterrows():
+            transaction = {
+                "id": row["id"],
+                "state": row["state"],
+                "date": row["date"],
+                "operationAmount": {
+                    "amount": row["amount"],  # Оставляем amount как строку
+                    "currency": {"name": row["currency_name"], "code": row["currency_code"]},
+                },
+                "from": row["from"],
+                "to": row["to"],
+                "description": row["description"],
+            }
+            transactions.append(transaction)
+        return transactions
     except FileNotFoundError:
-        print(f"Файл не найден: {file_name}")
+        print(f"Файл не найден: {file_path}")
         return []
     except pd.errors.EmptyDataError:
-        print(f"Пустой CSV файл: {file_name}")
+        print(f"Пустой CSV файл: {file_path}")
         return []
     except pd.errors.ParserError as e:
-        print(f"Ошибка парсинга CSV файла: {file_name}. Ошибка: {e}")
+        print(f"Ошибка парсинга CSV файла: {file_path}. Ошибка: {e}")
         return []
     except Exception as e:
-        print(f"Ошибка при чтении CSV файла: {file_name}. Ошибка: {e}")
+        print(f"Ошибка при чтении CSV файла: {file_path}. Ошибка: {e}")
         return []
 
 
 def read_xlsx_transactions(file_name: str) -> list[dict]:
     """
-    Читает данные о финансовых операциях из XLSX-файла и преобразует в список словарей.
+    Читает данные о финансовых операциях из XLSX-файла и преобразовывает в список словарей.
 
     Аргументы:
     file_name (str): Путь до XLSX-файла с данными о финансовых операциях.
@@ -92,7 +98,25 @@ def read_xlsx_transactions(file_name: str) -> list[dict]:
     """
     try:
         df = pd.read_excel(file_name)
-        return df.to_dict(orient="records")
+
+        result = df.apply(
+            lambda row: {
+                "id": row["id"],
+                "state": row["state"],
+                "date": row["date"],
+                "operationAmount": {
+                    "amount": row["amount"],
+                    "currency": {"name": row["currency_name"], "code": row["currency_code"]},
+                },
+                "description": row["description"],
+                "from": row["from"],
+                "to": row["to"],
+            },
+            axis=1,
+        ).tolist()
+
+        return result
+
     except FileNotFoundError:
         print(f"Файл не найден: {file_name}")
         return []

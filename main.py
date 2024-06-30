@@ -1,6 +1,6 @@
 from src.financial_operations import filter_transactions_by_description
 from src.processing import filter_by_state, sort_dicts_by_date
-from src.utils import read_operations, read_csv_transactions, read_xlsx_transactions
+from src.utils import read_csv_transactions, read_operations, read_xlsx_transactions
 from src.widget import get_data, mask_bank_data
 
 
@@ -32,7 +32,8 @@ def main():
     while True:
         state = input(
             "Введите статус, по которому необходимо выполнить фильтрацию. "
-            "Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING\nПользователь: ").upper()
+            "Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING\nПользователь: "
+        ).upper()
         if state not in ["EXECUTED", "CANCELED", "PENDING"]:
             print(f"Статус операции '{state}' недоступен.")
         else:
@@ -53,12 +54,18 @@ def main():
 
     ruble_only = input("Выводить только рублевые транзакции? Да/Нет\nПользователь: ").lower()
     if ruble_only == "да":
-        filtered_transactions = [t for t in filtered_transactions if
-                                 (t.get("operationAmount", {}).get("currency", {}).get("code") == "RUB" or
-                                  t.get("currency_code") == "RUB")]
+        filtered_transactions = [
+            t
+            for t in filtered_transactions
+            if (
+                t.get("operationAmount", {}).get("currency", {}).get("code") == "RUB"
+                or t.get("currency_code") == "RUB"
+            )
+        ]
 
     search_desc = input(
-        "Отфильтровать список транзакций по определенному слову в описании? Да/Нет\nПользователь: ").lower()
+        "Отфильтровать список транзакций по определенному слову в описании? Да/Нет\nПользователь: "
+    ).lower()
     if search_desc == "да":
         search_string = input("Введите строку для поиска в описании транзакций:\nПользователь: ")
         filtered_transactions = filter_transactions_by_description(filtered_transactions, search_string)
